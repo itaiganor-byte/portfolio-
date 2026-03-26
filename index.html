@@ -716,6 +716,7 @@
           <iframe src="https://itaiganor-canaryisland.netlify.app" style="width: 200%; height: 200%; transform: scale(0.5); transform-origin: top left; border: none; pointer-events: none;" scrolling="no" loading="lazy"></iframe>
           <a href="https://itaiganor-canaryisland.netlify.app" target="_blank" style="position: absolute; inset: 0; display: block;"></a>
         </div>
+      </div>
 
       <!-- COVER LETTER AGENT -->
       <div class="project-card reveal" style="--card-accent: #3dbd7a; --card-accent-light: #edfbf3;">
@@ -849,9 +850,18 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-      if (entry.isInt
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
