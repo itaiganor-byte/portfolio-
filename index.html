@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itai Ganor — Builder of Things</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1a1a;
+    --muted: #6b6560;
+    --accent-1: #e8522a; /* warm orange-red */
+    --accent-2: #2a6ee8; /* electric blue */
+    --accent-3: #3dbd7a; /* mint green */
+    --accent-4: #f0c040; /* warm yellow */
+    --card-bg: #fffdf8;
+    --border: rgba(26,26,26,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245,240,232,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .nav-logo span { color: var(--accent-1); }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+  }
+  nav ul a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 300;
+    transition: color 0.2s;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  nav ul a:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-text { position: relative; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--card-bg);
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-3);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--accent-1);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 440px;
+    margin-bottom: 40px;
+    line-height: 1.75;
+  }
+  .hero-desc strong { color: var(--ink); font-weight: 400; }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    border-radius: 6px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent-1); transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    transition: transform 0.2s, background 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
+
+  /* ── HERO DOODLE / VISUAL ── */
+  .hero-visual {
+    position: relative;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-blob {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    border-radius: 62% 38% 52% 48% / 44% 56% 44% 56%;
+    background: linear-gradient(135deg, #f0c040 0%, #e8522a 50%, #2a6ee8 100%);
+    opacity: 0.15;
+    animation: morph 8s ease-in-out infinite;
+  }
+  @keyframes morph {
+    0%, 100% { border-radius: 62% 38% 52% 48% / 44% 56% 44% 56%; }
+    33% { border-radius: 38% 62% 48% 52% / 56% 44% 56% 44%; }
+    66% { border-radius: 52% 48% 62% 38% / 44% 56% 44% 56%; }
+  }
+
+  .floating-cards {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 320px;
+  }
+  .fcard {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transition: transform 0.3s;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  .fcard:hover { transform: translateY(-6px) rotate(-1deg) !important; }
+  .fcard:nth-child(1) { animation-delay: 0s; }
+  .fcard:nth-child(2) { animation-delay: 0.8s; margin-top: 24px; }
+  .fcard:nth-child(3) { animation-delay: 1.6s; }
+  .fcard:nth-child(4) { animation-delay: 2.4s; margin-top: 24px; }
+
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .fcard-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .fcard-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+  .fcard-sub {
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 100px 40px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1.5px;
+    background: var(--accent-1);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 60px;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--card-accent, var(--accent-1));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.09); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .project-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--card-accent-light, #fff3ef);
+    color: var(--card-accent, var(--accent-1));
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .project-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    position: absolute;
+    top: 20px; right: 28px;
+    letter-spacing: -0.04em;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-number { color: rgba(26,26,26,0.06); }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .project-desc {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .stack-chip {
+    padding: 4px 10px;
+    background: rgba(26,26,26,0.05);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--card-accent, var(--accent-1));
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 10px; }
+
+  /* project visual placeholder */
+  .project-visual {
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--card-accent-light, #fff3ef), var(--card-bg));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    border: 1px solid var(--border);
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  #about .section-label { color: rgba(245,240,232,0.4); }
+  #about .section-label::before { background: var(--accent-4); }
+  #about .section-title { color: var(--bg); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-bio {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    font-weight: 300;
+    color: rgba(245,240,232,0.75);
+  }
+  .about-bio strong { color: var(--bg); font-weight: 400; }
+  .about-bio p + p { margin-top: 20px; }
+
+  .about-facts { display: flex; flex-direction: column; gap: 20px; }
+  .fact-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+  }
+  .fact-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+  }
+  .fact-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--bg);
+  }
+  .fact-value a {
+    color: var(--accent-4);
+    text-decoration: none;
+  }
+  .fact-value a:hover { text-decoration: underline; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.4);
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(245,240,232,0.08);
+    font-size: 0.82rem;
+    font-weight: 300;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--bg);
+    letter-spacing: -0.03em;
+  }
+  .footer-logo span { color: var(--accent-1); }
+  footer a { color: rgba(245,240,232,0.6); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--bg); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 20px 60px; gap: 40px; }
+    .hero-visual { height: 300px; }
+    section { padding: 70px 20px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span>✦</span> Itai Ganor</a>
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://linkedin.com/in/itaiganor" target="_blank">LinkedIn ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Available for work · Tel Aviv</div>
+    <h1>I build<br>things<br><em>with AI.</em></h1>
+    <p class="hero-desc">
+      Marketing Ops & MarTech specialist who got tired of waiting for tools to exist —
+      so <strong>started building them.</strong> Automations, agents, websites.
+      Sometimes they even work on the first try.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#projects">See my work ↓</a>
+      <a class="btn-secondary" href="https://linkedin.com/in/itaiganor" target="_blank">Connect on LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-blob"></div>
+    <div class="floating-cards">
+      <div class="fcard">
+        <div class="fcard-icon">🤖</div>
+        <div class="fcard-label">Tirza</div>
+        <div class="fcard-sub">AI job agent</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-icon">🏝️</div>
+        <div class="fcard-label">Tenerife</div>
+        <div class="fcard-sub">Travel site</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-icon">🧠</div>
+        <div class="fcard-label">Ollama</div>
+        <div class="fcard-sub">Local LLMs</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-icon">✍️</div>
+        <div class="fcard-label">Cover AI</div>
+        <div class="fcard-sub">Letter writer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">What I've built</div>
+      <h2 class="section-title">Projects</h2>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- TIRZA — Featured -->
+      <div class="project-card featured reveal" style="--card-accent: #e8522a; --card-accent-light: #fff3ef;">
+        <div>
+          <div class="project-number">01</div>
+          <div class="project-tag">AI Agent</div>
+          <h3 class="project-title">Tirza — My AI Job Search Agent</h3>
+          <p class="project-desc">
+            Named after my cat 🐈, Tirza is an autonomous multi-agent pipeline that scans LinkedIn, AllJobs, Comeet, and Drushim three times a day.
+            She scores job listings, deduplicates them, and delivers a ranked HTML report — all while I'm doing other things.
+            Built with OpenClaw and Claude API. No more doomscrolling job boards.
+          </p>
+          <div class="project-stack">
+            <span class="stack-chip">OpenClaw</span>
+            <span class="stack-chip">Claude API</span>
+            <span class="stack-chip">Brave Search API</span>
+            <span class="stack-chip">Node.js</span>
+            <span class="stack-chip">PowerShell</span>
+            <span class="stack-chip">JSON tracking</span>
+          </div>
+          <a class="project-link" href="https://github.com/itaiganor-byte" target="_blank">View on GitHub ↗</a>
+        </div>
+        <div class="project-visual" style="background: linear-gradient(135deg, #fff3ef, #fde8df); font-size: 1rem; padding: 16px; align-items: flex-start; overflow: auto;">
+          <svg width="100%" viewBox="0 0 680 820" style="font-family: 'DM Sans', sans-serif;">
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- Stage labels -->
+            <text x="340" y="28" text-anchor="middle" fill="#9a8f88" font-size="11" font-weight="400" letter-spacing="0.08em">INPUT SOURCES</text>
+
+            <!-- Source boxes -->
+            <g style="cursor:pointer">
+              <rect x="30" y="40" width="130" height="44" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+              <text x="95" y="62" text-anchor="middle" dominant-baseline="central" fill="#085041" font-size="13" font-weight="500">LinkedIn</text>
+            </g>
+            <g style="cursor:pointer">
+              <rect x="175" y="40" width="130" height="44" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+              <text x="240" y="62" text-anchor="middle" dominant-baseline="central" fill="#085041" font-size="13" font-weight="500">AllJobs</text>
+            </g>
+            <g style="cursor:pointer">
+              <rect x="320" y="40" width="130" height="44" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+              <text x="385" y="62" text-anchor="middle" dominant-baseline="central" fill="#085041" font-size="13" font-weight="500">Comeet</text>
+            </g>
+            <g style="cursor:pointer">
+              <rect x="465" y="40" width="130" height="44" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="0.5"/>
+              <text x="530" y="62" text-anchor="middle" dominant-baseline="central" fill="#085041" font-size="13" font-weight="500">Drushim</text>
+            </g>
+
+            <!-- Arrows from sources to Tirza -->
+            <line x1="95"  y1="84" x2="300" y2="148" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="240" y1="84" x2="322" y2="148" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="385" y1="84" x2="360" y2="148" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="530" y1="84" x2="393" y2="148" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- Tirza Agent -->
+            <rect x="220" y="148" width="240" height="62" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="1"/>
+            <text x="340" y="170" text-anchor="middle" dominant-baseline="central" fill="#4A1B0C" font-size="14" font-weight="700">Tirza agent</text>
+            <text x="340" y="192" text-anchor="middle" dominant-baseline="central" fill="#993C1D" font-size="11">OpenClaw · 3× daily · PowerShell</text>
+
+            <line x1="340" y1="210" x2="340" y2="254" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- Brave Search -->
+            <rect x="220" y="254" width="240" height="56" rx="10" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+            <text x="340" y="275" text-anchor="middle" dominant-baseline="central" fill="#412402" font-size="13" font-weight="500">Brave Search API</text>
+            <text x="340" y="295" text-anchor="middle" dominant-baseline="central" fill="#854F0B" font-size="11">Enriches &amp; validates listings</text>
+
+            <line x1="340" y1="310" x2="340" y2="354" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- Processing label -->
+            <text x="340" y="346" text-anchor="middle" fill="#9a8f88" font-size="11" font-weight="400" letter-spacing="0.08em">PROCESSING</text>
+
+            <!-- Dedup + Scoring -->
+            <rect x="100" y="358" width="210" height="56" rx="10" fill="#EEEDFE" stroke="#7F77DD" stroke-width="0.5"/>
+            <text x="205" y="379" text-anchor="middle" dominant-baseline="central" fill="#26215C" font-size="13" font-weight="500">Deduplication</text>
+            <text x="205" y="399" text-anchor="middle" dominant-baseline="central" fill="#534AB7" font-size="11">seen-jobs.json tracking</text>
+
+            <rect x="370" y="358" width="210" height="56" rx="10" fill="#EEEDFE" stroke="#7F77DD" stroke-width="0.5"/>
+            <text x="475" y="379" text-anchor="middle" dominant-baseline="central" fill="#26215C" font-size="13" font-weight="500">Scoring &amp; ranking</text>
+            <text x="475" y="399" text-anchor="middle" dominant-baseline="central" fill="#534AB7" font-size="11">Claude API relevance score</text>
+
+            <line x1="205" y1="414" x2="295" y2="470" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="475" y1="414" x2="390" y2="470" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- HTML Report -->
+            <rect x="220" y="470" width="240" height="56" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+            <text x="340" y="491" text-anchor="middle" dominant-baseline="central" fill="#2C2C2A" font-size="13" font-weight="500">HTML report</text>
+            <text x="340" y="511" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A" font-size="11">Ranked jobs · saved to .openclaw/</text>
+
+            <line x1="285" y1="526" x2="185" y2="584" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="400" y1="526" x2="505" y2="584" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- Cover Letter Agent -->
+            <rect x="50" y="584" width="240" height="62" rx="10" fill="#E6F1FB" stroke="#378ADD" stroke-width="0.5"/>
+            <text x="170" y="606" text-anchor="middle" dominant-baseline="central" fill="#042C53" font-size="13" font-weight="500">Cover letter agent</text>
+            <text x="170" y="626" text-anchor="middle" dominant-baseline="central" fill="#185FA5" font-size="11">Cline · tailored per role</text>
+
+            <!-- LinkedIn Draft -->
+            <rect x="390" y="584" width="240" height="62" rx="10" fill="#E6F1FB" stroke="#378ADD" stroke-width="0.5"/>
+            <text x="510" y="606" text-anchor="middle" dominant-baseline="central" fill="#042C53" font-size="13" font-weight="500">LinkedIn post draft</text>
+            <text x="510" y="626" text-anchor="middle" dominant-baseline="central" fill="#185FA5" font-size="11">Tirza drafts · Claude refines</text>
+
+            <line x1="170" y1="646" x2="170" y2="706" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+            <line x1="510" y1="646" x2="510" y2="706" stroke="#AAAAAA" stroke-width="1.5" fill="none" marker-end="url(#arr2)"/>
+
+            <!-- CRM Pipeline -->
+            <rect x="50" y="706" width="240" height="72" rx="10" fill="#EAF3DE" stroke="#639922" stroke-width="0.5"/>
+            <text x="170" y="728" text-anchor="middle" dominant-baseline="central" fill="#173404" font-size="13" font-weight="500">CRM status pipeline</text>
+            <text x="170" y="748" text-anchor="middle" dominant-baseline="central" fill="#3B6D11" font-size="11">unseen → cover_written</text>
+            <text x="170" y="766" text-anchor="middle" dominant-baseline="central" fill="#3B6D11" font-size="11">→ applied → rejected</text>
+
+            <!-- LinkedIn Publish -->
+            <rect x="390" y="706" width="240" height="72" rx="10" fill="#EAF3DE" stroke="#639922" stroke-width="0.5"/>
+            <text x="510" y="728" text-anchor="middle" dominant-baseline="central" fill="#173404" font-size="13" font-weight="500">LinkedIn publish</text>
+            <text x="510" y="748" text-anchor="middle" dominant-baseline="central" fill="#3B6D11" font-size="11">Hebrew content · reviewed</text>
+            <text x="510" y="766" text-anchor="middle" dominant-baseline="central" fill="#3B6D11" font-size="11">before posting</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- TENERIFE -->
+      <div class="project-card reveal" style="--card-accent: #2a6ee8; --card-accent-light: #eff4ff;">
+        <div class="project-number">02</div>
+        <div class="project-tag">Web App</div>
+        <h3 class="project-title">Tenerife Trip Planner</h3>
+        <p class="project-desc">
+          A personal travel website built for my Canary Islands trip — with live weather via Open-Meteo, an interactive Leaflet.js route map, a countdown timer, and Waze/Google Maps navigation links.
+          First project I ever "vibe coded" with AI assistance.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">HTML/CSS/JS</span>
+          <span class="stack-chip">Leaflet.js</span>
+          <span class="stack-chip">Open-Meteo API</span>
+          <span class="stack-chip">Netlify</span>
+          <span class="stack-chip">GitHub CI/CD</span>
+        </div>
+        <a class="project-link" href="https://itaiganor-canaryisland.netlify.app" target="_blank">Live site ↗</a>
+      </div>
+
+      <!-- COVER LETTER AGENT -->
+      <div class="project-card reveal" style="--card-accent: #3dbd7a; --card-accent-light: #edfbf3;">
+        <div class="project-number">03</div>
+        <div class="project-tag">AI Agent</div>
+        <h3 class="project-title">Cover Letter Writer Agent</h3>
+        <p class="project-desc">
+          An AI agent built in VS Code with Cline that reads Tirza's HTML job reports and auto-generates tailored cover letters for each role.
+          Tracks application status through a CRM-style pipeline: unseen → cover_written → applied → rejected.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Cline</span>
+          <span class="stack-chip">Claude API</span>
+          <span class="stack-chip">VS Code</span>
+          <span class="stack-chip">HTML parsing</span>
+          <span class="stack-chip">Status pipeline</span>
+        </div>
+      </div>
+
+      <!-- OLLAMA -->
+      <div class="project-card reveal" style="--card-accent: #f0c040; --card-accent-light: #fffbea;">
+        <div class="project-number">04</div>
+        <div class="project-tag">Experiment</div>
+        <h3 class="project-title">Local LLMs with Ollama</h3>
+        <p class="project-desc">
+          Running large language models locally on my own machine — no API costs, full privacy.
+          Explored models like Llama, Mistral, and others. Useful for understanding what's happening under the hood when you build with AI.
+        </p>
+        <div class="project-stack">
+          <span class="stack-chip">Ollama</span>
+          <span class="stack-chip">Llama 3</span>
+          <span class="stack-chip">Mistral</span>
+          <span class="stack-chip">Windows 11</span>
+          <span class="stack-chip">Local inference</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">The person behind it</div>
+      <h2 class="section-title">About me</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-bio">
+        <p>
+          I'm a <strong>Marketing Operations & MarTech specialist</strong> based in Tel Aviv with 7+ years of experience in multi-channel retail — B2C, B2B, e-commerce, the works.
+        </p>
+        <p>
+          A while back, I got curious about AI tools. That curiosity turned into building my first website with Claude Code (the Tenerife planner). Then I built Tirza. Then a cover letter agent. And somewhere along the way I realized: <strong>the ability to build automations and AI tools is the new marketing superpower.</strong>
+        </p>
+        <p>
+          I'm currently targeting <strong>Marketing Ops Manager</strong>, <strong>Growth Marketing</strong>, and <strong>RevOps</strong> roles in Tel Aviv's tech ecosystem — and actively studying HubSpot and Salesforce. The projects on this page are as much my portfolio as any CV.
+        </p>
+        <p style="color: rgba(245,240,232,0.4); font-size:0.85rem; margin-top: 30px; font-style: italic;">
+          Yes, Tirza the cat is real. She supervises all deployments from her spot on the keyboard. 🐈
+        </p>
+      </div>
+      <div class="about-facts">
+        <div class="fact-row">
+          <div class="fact-label">Location</div>
+          <div class="fact-value">Tel Aviv, Israel 🇮🇱</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Experience</div>
+          <div class="fact-value">7+ years MarTech & Marketing Ops</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Self-studying</div>
+          <div class="fact-value">HubSpot · Salesforce (Trailhead)</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Tools I use</div>
+          <div class="fact-value">Claude API · GA4 · Meta Ads · Google Ads</div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">GitHub</div>
+          <div class="fact-value"><a href="https://github.com/itaiganor-byte" target="_blank">itaiganor-byte ↗</a></div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-label">Currently open to</div>
+          <div class="fact-value">Marketing Ops · Growth · RevOps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>✦</span> Itai Ganor</div>
+  <div>Built with AI assistance · Tel Aviv 2025</div>
+  <div>
+    <a href="https://linkedin.com/in/itaiganor" target="_blank">LinkedIn</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/itaiganor-byte" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
