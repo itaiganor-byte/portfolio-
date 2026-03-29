@@ -536,6 +536,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+  /* Fallback: if JS doesn't fire, show everything after 1s */
+  @keyframes revealFallback {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    animation: revealFallback 0.7s ease 1s forwards;
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
@@ -593,6 +600,7 @@
     <div class="hero-cta">
       <a class="btn-primary" href="#projects">See my work ↓</a>
       <a class="btn-secondary" href="https://www.linkedin.com/in/itai-ganor/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+      <a class="btn-secondary" href="cv.pdf" target="_blank" rel="noopener noreferrer">📄 Download CV</a>
     </div>
   </div>
 
@@ -642,7 +650,7 @@
           <p class="project-desc">
             Named after my cat 🐈, Tirza is an autonomous multi-agent pipeline that scans LinkedIn, AllJobs, Comeet, and Drushim three times a day.
             She scores job listings, deduplicates them, and delivers a ranked HTML report — all while I'm doing other things.
-            Built with OpenClaw and Claude API. No more doomscrolling job boards.
+            Built with OpenClaw and Claude API. Scans 4 job boards · 3× daily · zero doomscrolling.
           </p>
           <div class="project-stack">
             <span class="stack-chip">OpenClaw</span>
@@ -937,7 +945,7 @@
     <div class="about-grid reveal">
       <div class="about-bio">
         <p>
-          I'm a <strong>Marketing Operations & MarTech specialist</strong> based in Tel Aviv with 7+ years of experience in multi-channel retail — B2C, B2B, e-commerce, the works.
+          I'm a <strong>Marketing Operations & MarTech specialist</strong> based in Tel Aviv with 7+ years of experience in multi-channel retail — B2C, B2B, e-commerce, the works. Drove a <strong>25% increase in conversion rate</strong> and reduced CAC by <strong>15%</strong> through data-driven campaigns and automation.
         </p>
         <p>
           A while back, I got curious about AI tools. That curiosity turned into building my first website with Claude Code (the Tenerife planner). Then I built Tirza. Then a cover letter agent. And somewhere along the way I realized: <strong>the ability to build automations and AI tools is the new marketing superpower.</strong>
@@ -988,11 +996,11 @@
     </div>
     <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 700px;">
 
-      <a href="mailto:itaiganor@gmail.com" style="text-decoration: none;">
+      <a href="/cdn-cgi/l/email-protection#1f766b7e76787e71706d5f78727e7673317c7072" style="text-decoration: none;">
         <div class="contact-card">
           <div style="font-size: 2rem; margin-bottom: 16px;">✉️</div>
           <div style="font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px;">Email me</div>
-          <div style="font-size: 0.85rem; color: var(--muted); font-weight: 300;">itaiganor@gmail.com</div>
+          <div style="font-size: 0.85rem; color: var(--muted); font-weight: 300;"><span class="__cf_email__" data-cfemail="bfd6cbded6d8ded1d0cdffd8d2ded6d391dcd0d2">[email&#160;protected]</span></div>
         </div>
       </a>
 
@@ -1005,6 +1013,7 @@
       </a>
 
     </div>
+    <p class="reveal" style="margin-top: 32px; font-size: 0.88rem; color: var(--muted); font-weight: 300; letter-spacing: 0.04em;">📍 Based in Tel Aviv &nbsp;·&nbsp; Available for interviews</p>
   </div>
 </section>
 </main>
@@ -1020,7 +1029,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Mobile nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -1037,13 +1046,4 @@
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+      if (entry.isIn
