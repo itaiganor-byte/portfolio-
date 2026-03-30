@@ -996,11 +996,11 @@
     </div>
     <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 700px;">
 
-      <a href="/cdn-cgi/l/email-protection#1f766b7e76787e71706d5f78727e7673317c7072" style="text-decoration: none;">
+      <a href="mailto:itaiganor@gmail.com" style="text-decoration: none;">
         <div class="contact-card">
           <div style="font-size: 2rem; margin-bottom: 16px;">✉️</div>
           <div style="font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px;">Email me</div>
-          <div style="font-size: 0.85rem; color: var(--muted); font-weight: 300;"><span class="__cf_email__" data-cfemail="bfd6cbded6d8ded1d0cdffd8d2ded6d391dcd0d2">[email&#160;protected]</span></div>
+          <div style="font-size: 0.85rem; color: var(--muted); font-weight: 300;">itaiganor@gmail.com</div>
         </div>
       </a>
 
@@ -1029,7 +1029,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Mobile nav toggle
   const navToggle = document.querySelector('.nav-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -1046,4 +1046,13 @@
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
-      if (entry.isIn
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(reveal => observer.observe(reveal));
+</script>
+</body>
+</html>
