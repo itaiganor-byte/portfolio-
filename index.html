@@ -6,14 +6,14 @@
 <title>Itai Ganor — Builder of Things</title>
 <meta name="theme-color" content="#f5f0e8">
 <link rel="icon" href="favicon.ico">
-<meta name="description" content="Marketing Ops & MarTech specialist based in Tel Aviv who builds AI agents, automations, and web tools. See my projects: Tirza, Tenerife planner, Cover Letter AI.">
+<meta name="description" content="Digital Marketing Manager based in Tel Aviv with 7+ years driving growth through campaigns, CRM, and MarTech. Builds AI agents, automations, and web tools.">
 <meta property="og:title" content="Itai Ganor — Builder of Things">
-<meta property="og:description" content="Marketing Ops & MarTech specialist who builds AI agents and automations. Based in Tel Aviv.">
+<meta property="og:description" content="Digital Marketing Manager with 7+ years driving growth through campaigns, CRM, and MarTech. Also builds AI agents and automations. Based in Tel Aviv.">
 <meta property="og:url" content="https://itaiportfolio.netlify.app/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Itai Ganor — Builder of Things">
-<meta name="twitter:description" content="Marketing Ops & MarTech specialist who builds AI agents and automations. Based in Tel Aviv.">
+<meta name="twitter:description" content="Digital Marketing Manager with 7+ years driving growth through campaigns, CRM, and MarTech. Also builds AI agents and automations. Based in Tel Aviv.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
@@ -90,17 +90,6 @@
     text-transform: uppercase;
   }
   .nav-menu a:hover { color: var(--ink); }
-  .linkedin-link {
-    color: #0A66C2;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .linkedin-link:hover {
-    color: #004182;
-  }
   .nav-toggle {
     display: none;
     background: none;
@@ -547,13 +536,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-  /* Fallback: if JS doesn't fire, show everything after 1s */
-  @keyframes revealFallback {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .reveal {
-    animation: revealFallback 0.7s ease 1s forwards;
-  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
@@ -593,7 +575,7 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="https://www.linkedin.com/in/itai-ganor/" class="linkedin-link" target="_blank" rel="noopener noreferrer">🔗 LinkedIn</a></li>
+    <li><a href="https://www.linkedin.com/in/itai-ganor/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
   </ul>
 </nav>
 <main>
@@ -604,14 +586,13 @@
     <div class="hero-eyebrow">Available for work · Tel Aviv</div>
     <h1>I build<br>things<br><em>with AI.</em></h1>
     <p class="hero-desc">
-      Marketing Ops & MarTech specialist who got tired of waiting for tools to exist —
-      so <strong>started building them.</strong> Automations, agents, websites.
+      Digital Marketing Manager with 7+ years driving growth through campaigns, CRM, and MarTech —
+      who got tired of waiting for tools to exist, so <strong>started building them.</strong> Automations, agents, websites.
       Sometimes they even work on the first try.
     </p>
     <div class="hero-cta">
       <a class="btn-primary" href="#projects">See my work ↓</a>
       <a class="btn-secondary" href="https://www.linkedin.com/in/itai-ganor/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
-      <a class="btn-secondary" href="cv.pdf" target="_blank" rel="noopener noreferrer">📄 Download CV</a>
     </div>
   </div>
 
@@ -661,7 +642,7 @@
           <p class="project-desc">
             Named after my cat 🐈, Tirza is an autonomous multi-agent pipeline that scans LinkedIn, AllJobs, Comeet, and Drushim three times a day.
             She scores job listings, deduplicates them, and delivers a ranked HTML report — all while I'm doing other things.
-            Built with OpenClaw and Claude API. Scans 4 job boards · 3× daily · zero doomscrolling.
+            Built with OpenClaw and Claude API. No more doomscrolling job boards.
           </p>
           <div class="project-stack">
             <span class="stack-chip">OpenClaw</span>
@@ -942,30 +923,6 @@
         </div>
       </div>
 
-      <!-- AI CREATIVE -->
-      <div class="project-card reveal" style="--card-accent: #e8522a; --card-accent-light: #fff3ef;">
-        <div class="project-number">05</div>
-        <div class="project-tag">AI Creative</div>
-        <h3 class="project-title">Travel Content Series</h3>
-        <p class="project-desc">
-          AI-generated marketing content — from brief to final asset, no designer needed.
-          Travel content series created for a Seoul trip research project.
-        </p>
-        <div class="project-stack">
-          <span class="stack-chip">Generative AI</span>
-          <span class="stack-chip">Midjourney</span>
-          <span class="stack-chip">nano-banana</span>
-          <span class="stack-chip">Hebrew Content</span>
-          <span class="stack-chip">Infographic Design</span>
-        </div>
-        <!-- Showcase images -->
-        <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-          <img src="infographic1.jpg" alt="Travel infographic 1" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(26,26,26,0.1);">
-          <img src="infographic2.jpg" alt="Travel infographic 2" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(26,26,26,0.1);">
-          <img src="infographic3.jpg" alt="Travel infographic 3" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(26,26,26,0.1);">
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -980,15 +937,15 @@
     <div class="about-grid reveal">
       <div class="about-bio">
         <p>
-          I'm a <strong>Marketing Operations & MarTech specialist</strong> based in Tel Aviv with 7+ years of experience in multi-channel retail — B2C, B2B, e-commerce, the works. Drove a <strong>25% increase in conversion rate</strong> and reduced CAC by <strong>15%</strong> through data-driven campaigns and automation.
+          I'm a <strong>Digital Marketing Manager</strong> based in Tel Aviv with 7+ years of experience in B2C eCommerce and multi-channel retail. Drove <strong>₪180K–230K in monthly revenue</strong>, +25% conversion rate, and -15% CAC — as the sole owner of a full MarTech stack across campaigns, CRM, and digital operations.
         </p>
         <p>
           A while back, I got curious about AI tools. That curiosity turned into building my first website with Claude Code (the Tenerife planner). Then I built Tirza. Then a cover letter agent. And somewhere along the way I realized: <strong>the ability to build automations and AI tools is the new marketing superpower.</strong>
         </p>
         <p>
-          I'm currently targeting <strong>Marketing Ops Manager</strong>, <strong>Growth Marketing</strong>, <strong>RevOps</strong>, <strong>Digital Manager</strong>, and <strong>Marketing Coordinator</strong> roles in Tel Aviv's tech ecosystem — and actively studying HubSpot and Salesforce. The projects on this page are as much my portfolio as any CV.
+          Currently exploring <strong>Digital Marketing Manager</strong> and <strong>Marketing Ops</strong> opportunities in tech, SaaS, or eCommerce — and actively studying HubSpot and Salesforce. The projects on this page are as much my portfolio as any CV.
         </p>
-        <p style="color: rgba(245,240,232,0.4); font-size:0.85rem; margin-top: 30px; font-style: italic;">
+        <p style="color: rgba(245,240,232,0.6); font-size:0.85rem; margin-top: 30px; font-style: italic;">
           Yes, Tirza the cat is real. She supervises all deployments from her spot on the keyboard. 🐈
         </p>
       </div>
@@ -999,7 +956,7 @@
         </div>
         <div class="fact-row">
           <div class="fact-label">Experience</div>
-          <div class="fact-value">7+ years MarTech & Marketing Ops</div>
+          <div class="fact-value">7+ years Digital Marketing & Ops</div>
         </div>
         <div class="fact-row">
           <div class="fact-label">Self-studying</div>
@@ -1007,7 +964,7 @@
         </div>
         <div class="fact-row">
           <div class="fact-label">Tools I use</div>
-          <div class="fact-value">Claude API · GA4 · Meta Ads · Google Ads · OpenClaw · Ollama</div>
+          <div class="fact-value">Claude API · GA4 · Meta Ads · Google Ads</div>
         </div>
         <div class="fact-row">
           <div class="fact-label">GitHub</div>
@@ -1015,7 +972,7 @@
         </div>
         <div class="fact-row">
           <div class="fact-label">Currently open to</div>
-          <div class="fact-value">Marketing Ops Manager · Growth Marketing · RevOps · Digital Manager · Marketing Coordinator</div>
+          <div class="fact-value">Digital Marketing Manager · Marketing Ops</div>
         </div>
       </div>
     </div>
@@ -1039,16 +996,15 @@
         </div>
       </a>
 
-      <a href="https://www.linkedin.com/in/itai-ganor/" class="linkedin-link" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+      <a href="https://www.linkedin.com/in/itai-ganor/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
         <div class="contact-card">
-          <div style="font-size: 2rem; margin-bottom: 16px;">🔗</div>
-          <div style="font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.02em; color: #0A66C2; margin-bottom: 6px;">LinkedIn</div>
+          <div style="font-size: 2rem; margin-bottom: 16px;">💼</div>
+          <div style="font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px;">LinkedIn</div>
           <div style="font-size: 0.85rem; color: var(--muted); font-weight: 300;">linkedin.com/in/itai-ganor</div>
         </div>
       </a>
 
     </div>
-    <p class="reveal" style="margin-top: 32px; font-size: 0.88rem; color: var(--muted); font-weight: 300; letter-spacing: 0.04em;">📍 Based in Tel Aviv &nbsp;·&nbsp; Available for interviews</p>
   </div>
 </section>
 </main>
@@ -1056,7 +1012,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo"><span>✦</span> Itai Ganor</div>
-  <div>Built with AI assistance · Tel Aviv 2026</div>
+  <div>Built with AI assistance · Tel Aviv 2025</div>
   <div>
     <a href="https://www.linkedin.com/in/itai-ganor/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     &nbsp;·&nbsp;
@@ -1082,12 +1038,13 @@
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 100);
       }
     });
-  }, { threshold: 0.1 });
-
-  reveals.forEach(reveal => observer.observe(reveal));
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
